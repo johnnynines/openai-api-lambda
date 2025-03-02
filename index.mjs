@@ -2,10 +2,10 @@ import { OpenAI } from "openai";
 import "dotenv/config";
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*', // Or your specific origin
+  'Access-Control-Allow-Origin': '*', // Or your specific origin. It is recommended to restrict it to your domain as much as possible
   'Access-Control-Allow-Methods': 'POST, OPTIONS', // Must include OPTIONS
   'Access-Control-Allow-Headers': 'content-type, content-allow-methods, content-allow-origin', // Your requested headers
-  'Access-Control-Max-Age': '86400', // Optional
+  'Access-Control-Max-Age': '86400', // Optional caching of preflight response
 };
 
 export async function handler(event) {
@@ -34,10 +34,10 @@ export async function handler(event) {
       console.error('Missing body in event:', event);
       throw new Error('Request body is missing');
     }
-
+    // Parse the body and log its success or failure. This can be removed once you are confident in the input
     let parsedBody;
     try {
-      parsedBody = JSON.parse(event.body);
+      parsedBody = JSON.parse(event.body); 
       console.log('Successfully parsed body:', parsedBody);
     } catch (e) {
       console.error('Failed to parse body:', event.body);
@@ -45,52 +45,23 @@ export async function handler(event) {
     }
 
     // Validate required fields
-    const required = ['name', 'age', 'job', 'company', 'industry', 'personaType'];
+    const required = ['']; // Add your required fields here
     const missing = required.filter(field => !parsedBody[field]);
     if (missing.length > 0) {
       throw new Error(`Missing required fields: ${missing.join(', ')}`);
     }
 
-    // Initialize OpenAI
+    // Initialize OpenAI API
     const openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY
     });
 
-    const prompt = `Create a detailed user persona for ${parsedBody.name}, who is ${parsedBody.age} years old and works as a ${parsedBody.job} at ${parsedBody.company} in the ${parsedBody.industry} industry. This persona represents a ${parsedBody.personaType}. ${parsedBody.additionalCriteria ? `Additional Context: ${parsedBody.additionalCriteria}` : ''} ${parsedBody.salaryRange ? `Expected Income Range: ${parsedBody.salaryRange}` : ''}
-    Please provide the following details in a JSON format:
-
-    {
-    "incomeRange": "${parsedBody.salaryRange || 'To be determined based on role and experience'}",
-    "background": "a detailed paragraph about ${parsedBody.name}'s professional background and experience at ${parsedBody.company}. Include information about their role, responsibilities, and achievements.",
-    "goals": [
-        "specific professional goals with metrics",
-        "personal development goal tied to career advancement",
-        "work-life balance goal with specific activities",
-        "financial or investment goal",
-        "skill development goal relevant to ${parsedBody.industry}"
-    ],
-    "painPoints": [
-        "specific challenge related to their role at ${parsedBody.company} as a ${parsedBody.job}",
-        "industry-specific challenge in ${parsedBody.industry}",
-        "management or team-related challenge",
-        "technology or tool-related frustration or challenges",
-        "work-life balance challenge"
-    ],
-    "hobbies": [
-        "active hobby with frequency and motivation",
-        "creative hobby with description",
-        "social hobby with community involvement",
-        "technical hobby related to their field",
-        "relaxation activity"
-    ],
-    "preferences": [
-        "preferred work environment (remote/hybrid/office)",
-        "communication style and tools",
-        "learning and development preferences",
-        "collaboration style preference",
-        "technology stack or tool preferences"
-    ]
-    }`;
+    const prompt = `Create a new prompt and retun the response as JSON object with the following data:
+        {
+          "key01": "value01",
+          "key02": "value02",
+          "key03": "value03"
+        }`;
 
     const completion = await openai.chat.completions.create({
       messages: [{ 
@@ -100,11 +71,12 @@ export async function handler(event) {
       model: "gpt-3.5-turbo",
       temperature: 0.7,
       max_tokens: 1000,
-      response_format: { type: "json_object" }
+      response_format: { type: "json_object" } // Refer to the API documentation for more options
     });
 
     const aiResponse = completion.choices[0].message.content;
 
+    // Parse the response and log its success or failure. This can be removed once you are confident in the output
     let parsedResponse;
     try {
       parsedResponse = JSON.parse(aiResponse);
@@ -120,7 +92,7 @@ export async function handler(event) {
       console.error('Failed to parse OpenAI response:', aiResponse);
       throw new Error('Invalid JSON response from OpenAI');
     }
-
+  // Handle errors and return a response
   } catch (error) {
     console.error('Lambda error:', {
       message: error.message,

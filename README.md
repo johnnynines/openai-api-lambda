@@ -7,10 +7,11 @@ To use this you will need the following:
 - [Node v20](https://nodejs.org/en) or higher
 - An [AWS Lamda](https://aws.amazon.com/lambda/)
 
-The Lambda needs to be configured locally before being added to your AWS console and is meant to be used with a [AWS API Gateway](https://aws.amazon.com/api-gateway/)
-### Requirements
+Pull the repo to your local environment.
+Run `npm install`
+Once the packages have been installed. You have to zip up the entire root directory and upload it to your Lambda before it can be used with an [AWS API Gateway](https://aws.amazon.com/api-gateway/)
+In your Lambda create a `.env` file to store your OpenAI API Key before testing your Lamnbda function.
 
 ## To Do
-- [ ] Modify code to allow for a public repo
-- [ ] Update prompt for some more detail
-- [ ] Fix CORS so it is more secure
+- [ ] Add instructions demonstrating how to set up the Lambda from nothing
+- [ ] Add details about CORS settings
