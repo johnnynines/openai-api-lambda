@@ -1,7 +1,7 @@
 # OpenAI API Lambda Setup
-This is a clone artifact from my work on [EasyUserPersonas.com](https://easyuserpersonas.com/) that I have modified for others to use in their OpenAI projects.
+This is a cloned artifact from my development of [EasyUserPersonas.com](https://easyuserpersonas.com/). It has been modified so that it can be used and expanded upon by others, in their own respective OpenAI projects.
 
-The purpose of the Lambda function is to provide a secure space to invoke an OpenAI API request and handle the resoponse. The Lambda can be triggered several ways, but this was developed with the intention of using the [AWS API Gateway](https://aws.amazon.com/api-gateway/) to trigger the Lambda function.
+The purpose of this Lambda function is to provide a secure space to invoke an OpenAI API request and handle the resoponse. The Lambda can be triggered several ways, but this was developed with the intention of using the [AWS API Gateway](https://aws.amazon.com/api-gateway/) to trigger the Lambda function from a web application.
 
 ## How to use
 To use this you will need the following:
