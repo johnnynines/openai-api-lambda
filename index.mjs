@@ -55,7 +55,7 @@ export async function handler(event) {
     const openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY
     });
-
+    // Create a new prompt and get the response. You can customize with your own prompt engineering. This is a simple example to retrieve a JSON object
     const prompt = `Create a new prompt and retun the response as JSON object with the following data:
         {
           "key01": "value01",

@@ -7,10 +7,9 @@ To use this you will need the following:
 - [Node v20](https://nodejs.org/en) or higher
 - An [AWS Lamda](https://aws.amazon.com/lambda/)
 
-Pull the repo to your local environment.
-Run `npm install`
-Once the packages have been installed. You have to zip up the entire root directory and upload it to your Lambda before it can be used with an [AWS API Gateway](https://aws.amazon.com/api-gateway/)
-In your Lambda create a `.env` file to store your OpenAI API Key before testing your Lamnbda function.
+Pull the repo to your local environment and run `npm install`.
+Once the packages have been installed, you have to zip up the entire root directory, including the `node_modules` directory, and upload it to your Lambda before it can be used with an [AWS API Gateway](https://aws.amazon.com/api-gateway/)
+Add a `.env` file to the root of your Lambda to store your OpenAI API key
 
 ## To Do
 - [ ] Add instructions demonstrating how to set up the Lambda from nothing
